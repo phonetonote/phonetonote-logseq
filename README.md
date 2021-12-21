@@ -4,7 +4,7 @@ alpha version, see issues tab for list of features coming soon.
 
 ## installation
 
-this needs to be build locally using `yarn build`, then loaded into logseq. it will be available in the logseq marketplace soon.
+this needs to be build locally using `yarn build` (to create the `dist` folder), then loaded into logseq. it will be available in the logseq marketplace soon.
 
 ## configuration
 
