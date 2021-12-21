@@ -1,40 +1,9 @@
 import "@logseq/libs";
-import { IBatchBlock, LSPluginBaseInfo } from "@logseq/libs/dist/libs";
-
-const delay = (t = 100) => new Promise((r) => setTimeout(r, t));
-
-async function loadPtnData(ptnKey: string) {
-  const endpoint = `https://app.phonetonote.com/feed.json?ptn_key=${ptnKey}`;
-
-  const data = await fetch(endpoint).then((res) => res.json());
-  return data?.items ?? [];
-}
-
-async function markItemSynced(item, ptnKey) {
-  fetch(`https://app.phonetonote.com/feed/${item.id}.json`, {
-    method: "PATCH",
-    body: JSON.stringify({
-      roam_key: `${ptnKey}`,
-      status: "synced",
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  }).then((response) => response.json);
-}
-
-function english_ordinal_suffix(dt) {
-  return (
-    dt.getDate() +
-    (dt.getDate() % 10 == 1 && dt.getDate() != 11
-      ? "st"
-      : dt.getDate() % 10 == 2 && dt.getDate() != 12
-      ? "nd"
-      : dt.getDate() % 10 == 3 && dt.getDate() != 13
-      ? "rd"
-      : "th")
-  );
-}
+import { delay } from "./helpers";
+import { loadPtnData, markItemSynced } from "./ptn";
+import { format } from "date-fns";
+import { FeedItem, itemToNode, PtnNode } from "ptn-helpers";
+import { LSPluginBaseInfo, IBatchBlock } from "@logseq/libs/dist/LSPlugin.user";
 
 /**
  * main entry
@@ -46,6 +15,7 @@ function main(baseInfo: LSPluginBaseInfo) {
   logseq.provideModel({
     async loadPtn() {
       const info = await logseq.App.getUserConfigs();
+
       if (loading) return;
 
       const pageName = "phonetonote-logseq";
@@ -57,70 +27,94 @@ function main(baseInfo: LSPluginBaseInfo) {
 
       try {
         const currentPage = await logseq.Editor.getCurrentPage();
-        if (currentPage?.originalName !== pageName)
+        if (currentPage?.originalName !== pageName) {
           throw new Error("page error");
-
-        const pageBlocksTree = await logseq.Editor.getCurrentPageBlocksTree();
-
-        if (!pageBlocksTree) {
-          throw new Error("no blocks found on this page");
         }
 
-        console.log("pageBlocksTree", pageBlocksTree);
+        const ptnKey = baseInfo?.settings?.["ptn_key"];
 
-        const ptnKeyBlock = pageBlocksTree?.find(
-          (b) => b.content === "ptn_key"
-        );
-
-        if (!ptnKeyBlock) {
-          throw new Error(
-            "make a block called `ptn_key` on this page, and put your ptn_key under it"
+        if (!ptnKey) {
+          logseq.App.showMsg(
+            "ptn_key not found. add it to your phonetonote-logseq settings json file.",
+            "error"
           );
         } else {
-          const ptnKey = ptnKeyBlock.children[0]?.["content"];
-          if (!ptnKey) throw new Error("ptn_key is empty");
-
           const items = await loadPtnData(ptnKey);
 
-          console.log("items", items);
-
           if (items.length === 0) {
-            throw new Error("no items found"); // not an error, but easy to display message
+            logseq.App.showMsg("no new items found", "success");
           } else {
             const currentBlocks =
               await logseq.Editor.getCurrentPageBlocksTree();
-            console.log("currentBlocks", currentBlocks);
-            let targetBlock = currentBlocks[currentBlocks.length - 1];
 
-            targetBlock = await logseq.Editor.insertBlock(
-              targetBlock.uuid,
-              "🚀 fetching your notes...",
-              { before: true }
+            let targetBlock =
+              currentBlocks.length > 0
+                ? currentBlocks[currentBlocks.length - 1]
+                : await logseq.Editor.insertBlock(
+                    pageName,
+                    "synced notes will appear on this page",
+                    { isPageBlock: true }
+                  );
+
+            const dateFormat = info?.["preferredDateFormat"] || "MMM do, yyyy";
+            const blocks = items.reduce(
+              (
+                obj: Record<string, Record<string, FeedItem[]>>,
+                feedItem: FeedItem
+              ) => {
+                const date = new Date(feedItem.date_published),
+                  pageName = format(date, dateFormat),
+                  senderType = feedItem._ptr_sender_type;
+
+                if (!obj.hasOwnProperty(pageName)) {
+                  obj[pageName] = {};
+                }
+
+                if (!obj[pageName][senderType]) {
+                  obj[pageName][senderType] = [];
+                }
+
+                obj[pageName][senderType].push(feedItem);
+                return obj;
+              },
+              {}
             );
 
-            const blocks = items.map(
-              (it) => ({ content: it.content_text } as IBatchBlock)
-            );
+            for (const formattedDate of Object.keys(blocks)) {
+              const dateKey = `🔖 [[ptn sync]] 📅 [[${formattedDate}]]`;
 
-            await logseq.Editor.insertBatchBlock(targetBlock.uuid, blocks, {
-              sibling: false,
-            });
+              const existingDateBlock = currentBlocks?.filter((block) => {
+                return block.content === dateKey;
+              })?.[0];
 
-            const date = new Date();
-            const dateMonthStr = date.toLocaleDateString("en-us", {
-              month: "short",
-            });
-            const dateYearStr = date.toLocaleDateString("en-us", {
-              year: "numeric",
-            });
-            const dateStr = `${dateMonthStr} ${english_ordinal_suffix(
-              date
-            )}, ${dateYearStr}`;
+              const dateBlock =
+                existingDateBlock ||
+                (await logseq.Editor.insertBlock(targetBlock.uuid, dateKey));
 
-            await logseq.Editor.updateBlock(
-              targetBlock.uuid,
-              `## 🔖 [[phonetonote sync]] - [[${dateStr}]]`
-            );
+              for (const senderType of Object.keys(blocks[formattedDate])) {
+                await logseq.Editor.insertBatchBlock(
+                  dateBlock.uuid,
+                  blocks[formattedDate][senderType]
+                    .map((feedItem: FeedItem) => {
+                      return itemToNode(
+                        feedItem,
+                        baseInfo?.settings?.["ptn_hashtag"] || "ptn"
+                      );
+                    })
+                    .map((node: PtnNode): IBatchBlock => {
+                      return {
+                        content: node.text,
+                        children: node.children.map((child) => ({
+                          content: child.text,
+                        })),
+                      };
+                    }),
+                  {
+                    sibling: false,
+                  }
+                );
+              }
+            }
 
             items.forEach((item) => {
               markItemSynced(item, ptnKey);
@@ -128,7 +122,7 @@ function main(baseInfo: LSPluginBaseInfo) {
           }
         }
       } catch (e) {
-        logseq.App.showMsg(e.toString(), "warning");
+        logseq.App.showMsg(e.toString(), "error");
         console.error(e);
       } finally {
         loading = false;
