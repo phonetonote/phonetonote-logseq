@@ -87,9 +87,14 @@ function main(baseInfo: LSPluginBaseInfo) {
                 return block.content === dateKey;
               })?.[0];
 
-              const dateBlock =
-                existingDateBlock ||
-                (await logseq.Editor.insertBlock(targetBlock.uuid, dateKey));
+              let dateBlock = existingDateBlock;
+
+              if (!dateBlock && blocks[formattedDate]) {
+                dateBlock = await logseq.Editor.insertBlock(
+                  targetBlock.uuid,
+                  dateKey
+                );
+              }
 
               for (const senderType of Object.keys(blocks[formattedDate])) {
                 await logseq.Editor.insertBatchBlock(
