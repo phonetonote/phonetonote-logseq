@@ -10,7 +10,10 @@ search `logseq-phonetonote` in the logseq marketplace.
 
 ## configuration
 
-after installing, put your `ptn_key` and optionally a `ptn_hashtag` in the plugin settings file. you can open your plugin settings file by navigating to your logseq plugins, hovering over the settings icon in the logseq-phonetonote plugin, and clicking `Open settings`. it is also in the settings file of your logseq installation, e.g. `.logseq/settings/logseq-phonetonote.json`. please refresh logseq after adding your settings.
+after installing, put your `ptn_key` and optionally a `ptn_hashtag` in the plugin settings file. you can open your plugin settings file by navigating to your logseq plugins, hovering over the settings icon in the logseq-phonetonote plugin, and clicking `Open settings`. it is also in the settings file of your logseq installation, e.g. `.logseq/settings/logseq-phonetonote.json`. settings file with `ptn_key` looks like this:
+![image](https://user-images.githubusercontent.com/1139703/147282077-454579f2-836b-4049-a19f-d9f2350a8f54.png)
+
+please refresh logseq after adding your settings.
 
 ## usage
 
