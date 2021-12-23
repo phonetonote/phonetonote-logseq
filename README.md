@@ -2,6 +2,8 @@
 
 alpha version, see issues tab for list of features coming soon.
 
+phonetonote-logseq requires creating an account at [https://phonetonote.com](https://phonetonote.com). once signed up, the `ptn_key` you need for configuration will be in your phonetonote dashboard.
+
 ## installation
 
 this needs to be build locally using `yarn build` (to create the `dist` folder), then loaded into logseq. it will be available in the logseq marketplace soon.
