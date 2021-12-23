@@ -35,7 +35,7 @@ function main(baseInfo: LSPluginBaseInfo) {
 
         if (!ptnKey) {
           logseq.App.showMsg(
-            "ptn_key not found. add it to your phonetonote-logseq settings json file.",
+            "ptn_key not found. add it to your logseq-phonetonote settings json file.",
             "error"
           );
         } else {
