@@ -81,7 +81,7 @@ function main(baseInfo: LSPluginBaseInfo) {
             );
 
             for (const formattedDate of Object.keys(blocks)) {
-              const dateKey = `🔖 [[ptn sync]] 📅 [[${formattedDate}]]`;
+              const dateKey = `[[ptn sync]] — [[${formattedDate}]]`;
 
               const existingDateBlock = currentBlocks?.filter((block) => {
                 return block.content === dateKey;
@@ -92,7 +92,10 @@ function main(baseInfo: LSPluginBaseInfo) {
               if (!dateBlock && blocks[formattedDate]) {
                 dateBlock = await logseq.Editor.insertBlock(
                   targetBlock.uuid,
-                  dateKey
+                  dateKey,
+                  {
+                    sibling: true,
+                  }
                 );
               }
 
