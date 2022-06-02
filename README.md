@@ -21,7 +21,3 @@ please refresh logseq after adding your settings.
 ## usage
 
 after installing and configuring, click the phone button next to the home button in the top menu to take you to `phonetonote-logseq` page. if you're already on the page, click the icon again to refetch your notes. the fetched notes get inserted onto the page.
-
-### Demo
-
-![demo](./demo.gif)
