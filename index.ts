@@ -4,6 +4,7 @@ import { loadPtnData, markItemSynced } from "./ptn";
 import { format } from "date-fns";
 import { FeedItem, itemToNode, PtnNode } from "ptn-helpers";
 import { LSPluginBaseInfo, IBatchBlock } from "@logseq/libs/dist/LSPlugin.user";
+import { settingSchema } from "./setting-schema";
 
 /**
  * main entry
@@ -147,6 +148,8 @@ function main(baseInfo: LSPluginBaseInfo) {
       </a>
     `,
   });
+
+  logseq.useSettingsSchema(settingSchema);
 }
 
 // bootstrap
