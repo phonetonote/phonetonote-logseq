@@ -956,10 +956,10 @@
   "resolved" "https://registry.npmjs.org/@iarna/toml/-/toml-2.2.5.tgz"
   "version" "2.2.5"
 
-"@logseq/libs@^0.0.1-alpha.33":
-  "integrity" "sha512-KikcqgolrTFqlEWoiprAdRsz9kwUX3XwcjzWa9usBGLwgGCpq6E/1UvvhQweJJAXAGDUVUHIzdJ6Cm6pvuOBWQ=="
-  "resolved" "https://registry.npmjs.org/@logseq/libs/-/libs-0.0.1-alpha.35.tgz"
-  "version" "0.0.1-alpha.35"
+"@logseq/libs@^0.0.6":
+  "integrity" "sha512-0Fv+Wdno5m0EA9xW6tRRvoKNPAF5nznpi6A1bBjh8aq4XMt7rGvhHbsH+u84/nswCYlce3t2Q/ei8CRK8iWbdw=="
+  "resolved" "https://registry.npmjs.org/@logseq/libs/-/libs-0.0.6.tgz"
+  "version" "0.0.6"
   dependencies:
     "csstype" "3.0.8"
     "debug" "4.3.1"
@@ -2592,10 +2592,10 @@
     "whatwg-mimetype" "^2.2.0"
     "whatwg-url" "^7.0.0"
 
-"date-fns@^2.27.0":
-  "integrity" "sha512-sj+J0Mo2p2X1e306MHq282WS4/A8Pz/95GIFcsPNMPMZVI3EUrAdSv90al1k+p74WGLCruMXk23bfEDZa71X9Q=="
-  "resolved" "https://registry.npmjs.org/date-fns/-/date-fns-2.27.0.tgz"
-  "version" "2.27.0"
+"date-fns@^2.27.0", "date-fns@^2.28.0":
+  "integrity" "sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw=="
+  "resolved" "https://registry.npmjs.org/date-fns/-/date-fns-2.28.0.tgz"
+  "version" "2.28.0"
 
 "debug@^2.2.0":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
@@ -5051,10 +5051,12 @@
   "resolved" "https://registry.npmjs.org/psl/-/psl-1.8.0.tgz"
   "version" "1.8.0"
 
-"ptn-helpers@^0.0.13":
-  "integrity" "sha512-VymKufK9jvIHe6vAh8jDL+AaDuq7Qrp2ekQ6KX9MqawHRmDRHV9b/hEPt4wkHTNgVi497C6xsgxQXum9oBPvVw=="
-  "resolved" "https://registry.npmjs.org/ptn-helpers/-/ptn-helpers-0.0.13.tgz"
-  "version" "0.0.13"
+"ptn-helpers@^0.0.14":
+  "integrity" "sha512-9nMzFueZ0TTC77qH2kW0/W/Xwjj4K8ceHzZnL8HykrHLLRtV0dKb6KziLa7uTtCvevtaozdcZ610MkvvAhVbsQ=="
+  "resolved" "https://registry.npmjs.org/ptn-helpers/-/ptn-helpers-0.0.14.tgz"
+  "version" "0.0.14"
+  dependencies:
+    "date-fns" "^2.28.0"
 
 "public-encrypt@^4.0.0":
   "integrity" "sha512-zVpa8oKZSz5bTMTFClc1fQOnyyEzpl5ozpi1B5YcvBrdohMjH2rfsBtyXcuNuwjsDIXmBYlF2N5FlJYhR29t8Q=="
