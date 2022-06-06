@@ -128,7 +128,7 @@ function main(baseInfo: LSPluginBaseInfo) {
         });
       }
     } catch (e) {
-      logseq.UI.showMsg(e.toString(), "error");
+      logseq.UI.showMsg(e.message, "warning");
       console.error(e);
     } finally {
       loading = false;
