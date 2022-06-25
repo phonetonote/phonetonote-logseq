@@ -42,7 +42,7 @@ function main(baseInfo: LSPluginBaseInfo) {
           redirect: false,
         }
       );
-      datePageUid = newDatePage.uuid;
+      datePageUid = newDatePage!.uuid;
     }
 
     if (!parentBlock || parentBlock.length === 0) {
@@ -71,7 +71,7 @@ function main(baseInfo: LSPluginBaseInfo) {
     }
 
     const newParentBlock = await window.logseq.Editor.appendBlockInPage(datePageUid, parentBlock);
-    return newParentBlock.uuid;
+    return newParentBlock!.uuid;
   };
 
   const getMessages = async (showNotifcation: boolean) => {
