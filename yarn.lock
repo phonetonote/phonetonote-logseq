@@ -5051,10 +5051,10 @@
   "resolved" "https://registry.npmjs.org/psl/-/psl-1.8.0.tgz"
   "version" "1.8.0"
 
-"ptn-helpers@^0.0.14":
-  "integrity" "sha512-9nMzFueZ0TTC77qH2kW0/W/Xwjj4K8ceHzZnL8HykrHLLRtV0dKb6KziLa7uTtCvevtaozdcZ610MkvvAhVbsQ=="
-  "resolved" "https://registry.npmjs.org/ptn-helpers/-/ptn-helpers-0.0.14.tgz"
-  "version" "0.0.14"
+"ptn-helpers@^0.0.17":
+  "integrity" "sha512-zM8QvhJuKyy23uKBZT6CHTOdIEVvBgMs2yGWvhaV67TH5Y07inYLrfPt0EJCd2p+/ANbAnWHwlVa9g+qixHDcQ=="
+  "resolved" "https://registry.npmjs.org/ptn-helpers/-/ptn-helpers-0.0.17.tgz"
+  "version" "0.0.17"
   dependencies:
     "date-fns" "^2.28.0"
 

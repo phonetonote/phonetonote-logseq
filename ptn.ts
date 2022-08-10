@@ -16,6 +16,7 @@ export const markItemSynced = async (item, ptnKey) => {
     body: JSON.stringify({
       roam_key: `${ptnKey}`,
       status: "synced",
+      synced_by: "logseq",
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8",
