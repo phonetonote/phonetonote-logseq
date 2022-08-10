@@ -14,7 +14,7 @@ search `logseq-phonetonote` in the logseq marketplace.
 
 after installing, put your `ptn_key` (and set other configuration options) in the plugin's settings.
 
-please refresh logseq after adding to your settings.
+please refresh logseq after changing your settings.
 
 ## usage
 
