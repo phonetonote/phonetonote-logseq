@@ -1,6 +1,6 @@
 {
   "name": "phonetonote-logseq",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "sync phonetonote messages to logseq",
   "main": "dist/index.html",
   "targets": {
