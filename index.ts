@@ -30,7 +30,7 @@ function main(baseInfo: LSPluginBaseInfo) {
     `);
 
     if (possibleExistingDatePage.length > 0) {
-      datePageUid = possibleExistingDatePage[0][0]["uuid"]["$uuid$"];
+      datePageUid = possibleExistingDatePage[0][0]["uuid"];
     } else {
       const datePageTitle = format(date, dateFormat);
 
@@ -66,7 +66,7 @@ function main(baseInfo: LSPluginBaseInfo) {
     );
 
     if (possibleExistingParentBlock.length > 0) {
-      const existingParentUuid = possibleExistingParentBlock[0]["uuid"]["$uuid$"];
+      const existingParentUuid = possibleExistingParentBlock[0]["uuid"];
       return existingParentUuid;
     }
 
