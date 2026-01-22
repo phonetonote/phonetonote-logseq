@@ -10,8 +10,8 @@ export const loadPtnData = async (ptnKey: string): Promise<FeedItem[]> => {
   return data?.items ?? [];
 };
 
-export const markItemSynced = async (item, ptnKey) => {
-  fetch(`https://app.phonetonote.com/feed/${item.id}.json`, {
+export const markItemSynced = async (item: FeedItem, ptnKey: string) => {
+  await fetch(`https://app.phonetonote.com/feed/${item.id}.json`, {
     method: "PATCH",
     body: JSON.stringify({
       roam_key: `${ptnKey}`,
@@ -21,5 +21,5 @@ export const markItemSynced = async (item, ptnKey) => {
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-  }).then((response) => response.json);
+  });
 };

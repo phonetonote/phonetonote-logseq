@@ -22,11 +22,12 @@
     "icon": "./icon.png"
   },
   "dependencies": {
-    "@logseq/libs": "^0.0.6",
-    "date-fns": "^2.27.0",
-    "ptn-helpers": "^0.0.17"
+    "@logseq/libs": "^0.0.17",
+    "date-fns": "^4.1.0",
+    "ptn-helpers": "^0.0.19"
   },
   "devDependencies": {
-    "parcel": "^2.0.0-beta.2"
+    "parcel": "^2.16.3",
+    "typescript": "^5.9.3"
   }
 }

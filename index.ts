@@ -1,7 +1,6 @@
 import "@logseq/libs";
-import { delay } from "./helpers";
 import { loadPtnData, markItemSynced } from "./ptn";
-import { format, sub } from "date-fns";
+import { format } from "date-fns";
 import { FeedItem, itemToNode, organizeFeedItems, PtnNode } from "ptn-helpers";
 import { LSPluginBaseInfo, IBatchBlock } from "@logseq/libs/dist/LSPlugin.user";
 import { settingSchema } from "./setting-schema";
@@ -83,8 +82,8 @@ function main(baseInfo: LSPluginBaseInfo) {
 
     try {
       const dateFormat = info?.["preferredDateFormat"] || "MMM do, yyyy";
-      const ptnKey = baseInfo?.settings?.["ptn_key"];
-      const parentBlock: string = baseInfo?.settings?.["parent_block"] ?? "";
+      const ptnKey = baseInfo?.settings?.["ptn_key"] as string | undefined;
+      const parentBlock: string = (baseInfo?.settings?.["parent_block"] as string) ?? "";
 
       if (!ptnKey) {
         logseq.UI.showMsg("ptn key not found. edit in plugin settings", "warning", {
@@ -105,7 +104,7 @@ function main(baseInfo: LSPluginBaseInfo) {
                 parentUid = await findOrCreateParentUid(date, parentBlock, dateFormat),
                 batch = organizedItems[pageName][senderType]
                   .map((feedItem: FeedItem) => {
-                    return itemToNode(feedItem, baseInfo?.settings?.["ptn_hashtag"] || "ptn");
+                    return itemToNode(feedItem, (baseInfo?.settings?.["ptn_hashtag"] as string) || "ptn");
                   })
                   .map((node: PtnNode): IBatchBlock => {
                     return {
@@ -128,7 +127,8 @@ function main(baseInfo: LSPluginBaseInfo) {
         });
       }
     } catch (e) {
-      logseq.UI.showMsg(e.message, "warning");
+      const message = e instanceof Error ? e.message : String(e);
+      logseq.UI.showMsg(message, "warning");
       console.error(e);
     } finally {
       loading = false;
